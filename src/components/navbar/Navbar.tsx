@@ -4,7 +4,7 @@ import ButtonHome from './ButtonHome'
 
 function Navbar() {
   return (
-    <nav className="bg-[#2B1D1A] h-[80px] px-8">
+    <nav className="bg-[#2B1D1A] h-[70px] px-8">
       <div className="h-full text-sm flex items-center justify-between">
         <ButtonHome />
         <div>

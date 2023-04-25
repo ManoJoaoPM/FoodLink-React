@@ -14,8 +14,9 @@ module.exports = {
       },
       fontFamily: {
         merienda: ['"Merienda"', 'cursive'],
+        cursive: ['cursive'],
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar')],
 }
