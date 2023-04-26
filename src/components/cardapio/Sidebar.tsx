@@ -4,7 +4,7 @@ import { BsArrowLeft, BsCartFill, BsTelephoneFill } from 'react-icons/bs'
 function Sidebar() {
   return (
     <div className="w-[5%] h-full flex flex-col bg-[#2B1D1A]">
-      <div className="text-center text-white font-bold">
+      <div className="text-center text-white font-bold font-merienda">
         <img src="logo.png" className="w-24 text-center" />
         <span className="text-xs">
           Casarão <span className="block">Pedra Branca</span>
