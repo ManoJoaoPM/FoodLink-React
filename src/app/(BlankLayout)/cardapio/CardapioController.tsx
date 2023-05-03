@@ -4,6 +4,14 @@ import CardCategoria from '@/components/cardapio/CardCategoria'
 import CardProduto from '@/components/cardapio/CardProduto'
 import TamanhoSelect from '@/components/cardapio/TamanhoSelect'
 import { useMenuProductSelector } from '@/features/MenuProduct/hooks'
+import {
+  addAdicional,
+  removeAdicional,
+  selectCategoria,
+  selectProduto,
+  unselectCategoria,
+  unselectProduto,
+} from '@/features/MenuProduct/menuProduct.slice'
 import React, { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { BsFillChatDotsFill } from 'react-icons/bs'
@@ -32,46 +40,6 @@ function CardapioController({
 }: ICardapioControllerProps) {
   const menuProduct = useMenuProductSelector((state) => state)
   const dispatch = useDispatch()
-  
-  const { watch, setValue, control } = useForm<IFields>({
-    defaultValues: {
-      pedido: { categoria: '', produto: '', adicional: [], tamanho: {} },
-      obs: '',
-    },
-  })
-
-  const { append, remove } = useFieldArray({
-    control,
-    name: 'pedido.adicional',
-  })
-
-  const [totalProduto, setTotalProduto] = useState(0)
-
-  const categoriaWatch = watch('pedido.categoria')
-  const produtoWatch = watch('pedido.produto')
-  const adicionalWatch: IAdicional[] = watch('pedido.adicional')
-  const tamanhoWatch = watch('pedido.tamanho')
-
-  const onSubmit = () => {
-    console.log(adicionalWatch)
-  }
-
-  useEffect(() => {
-    const adicionalTotal = adicionalWatch.reduce(
-      (partialSum, adicional) => partialSum + adicional.preco.value,
-      0,
-    )
-
-    const total = tamanhoWatch.value
-      ? tamanhoWatch.value + adicionalTotal
-      : adicionalTotal
-
-    setTotalProduto(total)
-  }, [tamanhoWatch, adicionalWatch])
-
-  const setCustomValue = (id: keyof IFields, value: any) => {
-    setValue(id, value, { shouldDirty: true, shouldValidate: true })
-  }
 
   return (
     <form className="w-full h-full font-merienda font-bold">
@@ -84,8 +52,12 @@ function CardapioController({
               key={index}
               img={categoria.img}
               name={categoria.name}
-              selected={categoriaWatch === categoria.name}
-              onClick={() => setCustomValue('pedido.categoria', categoria.name)}
+              selected={menuProduct.categoria === categoria}
+              onClick={() =>
+                menuProduct.categoria != categoria
+                  ? dispatch(selectCategoria(categoria))
+                  : dispatch(unselectCategoria())
+              }
             />
           )
         })}
@@ -95,7 +67,8 @@ function CardapioController({
         <div className="mt-4 overflow-y-hidden overflow-x-scroll whitespace-nowrap scrollbar-thumb-gray-900 scrollbar-track-gray-100 scrollbar-thin">
           {produtos.map((produto, index) => {
             return (
-              produto.categoria.name === categoriaWatch && (
+              menuProduct.categoria &&
+              produto.categoria.name === menuProduct.categoria.name && (
                 <CardProduto
                   key={index}
                   name={produto.name}
@@ -104,11 +77,11 @@ function CardapioController({
                   tempo={produto.tempo}
                   pessoas={produto.pessoas}
                   onClick={() =>
-                    produtoWatch != produto.name
-                      ? setCustomValue('pedido.produto', produto.name)
-                      : setCustomValue('pedido.produto', '')
+                    menuProduct.produto != produto
+                      ? dispatch(selectProduto(produto))
+                      : dispatch(unselectProduto())
                   }
-                  selected={produto.name === produtoWatch}
+                  selected={produto === menuProduct.produto}
                 />
               )
             )
@@ -121,27 +94,21 @@ function CardapioController({
           {adicionais &&
             adicionais.map((adicional, index) => {
               return (
-                adicional.produto.name === produtoWatch && (
+                adicional.produto.name === menuProduct.produto?.name && (
                   <CardAdicional
                     key={index}
                     name={adicional.name}
                     produto={adicional.produto}
                     preco={adicional.preco}
                     selected={
-                      adicionalWatch.find(
+                      menuProduct.adicional.find(
                         ({ name }) => name === adicional.name,
                       ) && true
                     }
                     onClick={() => {
-                      !adicionalWatch.find(
-                        ({ name }) => name === adicional.name,
-                      )
-                        ? append(adicional)
-                        : remove(
-                            adicionalWatch.findIndex(
-                              ({ name }) => name === adicional.name,
-                            ),
-                          )
+                      !menuProduct.adicional.find((adc) => adc === adicional)
+                        ? dispatch(addAdicional(adicional))
+                        : dispatch(removeAdicional(adicional))
                     }}
                   />
                 )
@@ -149,6 +116,14 @@ function CardapioController({
             })}
         </div>
       </div>
+    </form>
+  )
+}
+
+export default CardapioController
+
+/*
+      
       <div className="flex justify-between px-12">
         <div className="w-36 text-center">
           <BsFillChatDotsFill className="text-3xl w-full mb-2" />
@@ -185,8 +160,4 @@ function CardapioController({
           </button>
         </div>
       </div>
-    </form>
-  )
-}
-
-export default CardapioController
+      */

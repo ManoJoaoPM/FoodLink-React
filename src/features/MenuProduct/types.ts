@@ -10,7 +10,7 @@ export enum MenuProductTypes {
 export interface IMenuProductData {
   categoria?: ICategoria
   produto?: IProduto
-  adicional?: IAdicional
+  adicional: IAdicional[]
   tamanho?: ITamanho
   obs?: string
 }
