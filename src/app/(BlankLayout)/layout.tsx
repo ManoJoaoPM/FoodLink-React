@@ -15,7 +15,7 @@ export default function RootLayout({
     <html lang="pt-br">
       <body className="flex">
         <Sidebar />
-        <main className="px-12 py-8 w-full">{children}</main>
+        <main className="px-12 py-8 w-full overflow-x-hidden">{children}</main>
       </body>
     </html>
   )
