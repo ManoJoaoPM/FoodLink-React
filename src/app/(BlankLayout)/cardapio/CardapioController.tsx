@@ -37,10 +37,10 @@ function CardapioController({
   const [modalObsOpen, setModalObsOpen] = useState(false)
 
   return (
-    <div className="w-full h-full font-merienda font-bold">
-      <h1 className="uppercase text-center font-bold text-3xl">Cardápio</h1>
-      <div className="mt-4 overflow-y-hidden overflow-x-scroll whitespace-nowrap scrollbar-thumb-gray-900 scrollbar-track-gray-100 scrollbar-thin">
-        <h2 className="text-xl uppercase mb-3">Categorias</h2>
+    <div className="h-full w-full font-merienda font-bold">
+      <h1 className="text-center text-3xl font-bold uppercase">Cardápio</h1>
+      <div className="mt-4 overflow-y-hidden overflow-x-scroll whitespace-nowrap scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-900">
+        <h2 className="mb-3 text-xl uppercase">Categorias</h2>
         {categorias.map((categoria, index) => {
           return (
             <CardCategoria
@@ -58,8 +58,8 @@ function CardapioController({
         })}
       </div>
       <div className="mt-4 pb-8">
-        <h2 className="text-xl uppercase mb-3">Produtos</h2>
-        <div className="mt-4 overflow-y-hidden overflow-x-scroll whitespace-nowrap scrollbar-thumb-gray-900 scrollbar-track-gray-100 scrollbar-thin">
+        <h2 className="mb-3 text-xl uppercase">Produtos</h2>
+        <div className="mt-4 overflow-y-hidden overflow-x-scroll whitespace-nowrap scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-900">
           {produtos.map((produto, index) => {
             return (
               menuProduct.categoria &&
@@ -84,8 +84,8 @@ function CardapioController({
         </div>
       </div>
       <div className="mt-4 pb-8">
-        <h2 className="text-xl uppercase mb-3">Adicionais</h2>
-        <div className="mt-4 overflow-y-hidden overflow-x-scroll whitespace-nowrap scrollbar-thumb-gray-900 scrollbar-track-gray-100 scrollbar-thin">
+        <h2 className="mb-3 text-xl uppercase">Adicionais</h2>
+        <div className="mt-4 overflow-y-hidden overflow-x-scroll whitespace-nowrap scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-900">
           {adicionais &&
             adicionais.map((adicional, index) => {
               return (
@@ -111,13 +111,13 @@ function CardapioController({
             })}
         </div>
       </div>
-      <div className="flex flex-col h-32 md:flex-row justify-between items-center px-4 md:px-8">
-        <div className="flex gap-4 h-full items-center">
+      <div className="flex h-32 flex-col items-center justify-between px-4 md:px-8 lg:flex-row">
+        <div className="flex h-full items-center gap-4">
           <div
             onClick={() => setModalObsOpen(!modalObsOpen)}
-            className="w-36 text-center cursor-pointer"
+            className="w-36 cursor-pointer text-center"
           >
-            <BsFillChatDotsFill className="text-3xl w-full mb-2" />
+            <BsFillChatDotsFill className="mb-2 w-full text-3xl" />
             <h3 className="text-sm">Deixar observação do produto</h3>
           </div>
           {modalObsOpen && (
@@ -126,8 +126,8 @@ function CardapioController({
             />
           )}
         </div>
-        <div className="flex flex-col justify-center">
-          <div className="inline-flex gap-10 mr-8 w-full justify-center mt-4">
+        <div className="flex flex-col justify-center xl:flex-row">
+          <div className="mt-4 inline-flex w-full justify-center gap-8 md:justify-start lg:mr-0 xl:my-auto xl:mr-8">
             {produtos.map((produto) => {
               return (
                 menuProduct.produto &&
@@ -147,12 +147,12 @@ function CardapioController({
               )
             })}
           </div>
-          <h1 className="inline-block mr-8 mt-4 text-lg md:text-base md:mt-0 w-full text-center mb-4">
+          <h1 className="my-4 inline-block text-center text-lg md:my-4 md:mr-0 md:whitespace-normal md:text-base lg:my-4 xl:my-auto xl:mr-8 xl:whitespace-nowrap">
             Total a pagar do produto: R${menuProduct.precoTotal}
           </h1>
           <button
             onClick={() => dispatch(addCart(menuProduct))}
-            className="border-2 border-[#FF8411] rounded-xl px-8 py-2 mb-8"
+            className="mb-8 rounded-xl border-2 border-[#FF8411] px-8 py-2 md:my-auto md:w-full lg:mb-8 xl:my-auto xl:whitespace-nowrap"
           >
             Adicionar ao carrinho
           </button>
