@@ -15,7 +15,7 @@ function TamanhoSelect({ tamanho, selected, onClick }: ITamanhoSelectProps) {
         id={tamanho.name}
         checked={selected}
         onChange={() => onClick()}
-        className="mr-2 checkbox-xs"
+        className="mr-2 checkbox-xs cursor-pointer"
       />
       <div>
         <h1 className="text-xl">{tamanho.name}</h1>

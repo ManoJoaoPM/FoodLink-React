@@ -21,7 +21,7 @@ function CardAdicional({
     <div
       onClick={() => onClick()}
       className={
-        'card w-80 bg-base-100 shadow-lg !rounded-none inline-block mr-4'
+        'card w-80 cursor-pointer bg-base-100 shadow-lg !rounded-none inline-block mr-4'
       }
     >
       <figure>
